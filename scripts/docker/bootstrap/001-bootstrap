@@ -39,12 +39,8 @@ sed -i 's|#PermitRootLogin prohibit-password|PermitRootLogin yes|g' /etc/ssh/ssh
 apt-get install -y wireless-tools wpasupplicant firmware-brcm80211 wireless-regdb firmware-realtek bluez bluez-tools
 
 # Blobs for our board(s)
-wget -O /lib/firmware/brcm/BCM4345C5.hcd https://github.com/armbian/firmware/raw/master/brcm/BCM4345C5.hcd
-wget -O /lib/firmware/brcm/brcmfmac43456-sdio.bin https://github.com/armbian/firmware/raw/master/brcm/brcmfmac43456-sdio.bin
-wget -O /lib/firmware/brcm/brcmfmac43456-sdio.txt https://github.com/armbian/firmware/raw/master/brcm/brcmfmac43456-sdio.txt
-wget -O /lib/firmware/brcm/brcmfmac43456-sdio.clm_blob https://github.com/armbian/firmware/raw/master/brcm/brcmfmac43456-sdio.clm_blob
-wget -O "/lib/firmware/brcm/brcmfmac43456-sdio.radxa,zero.bin" https://github.com/armbian/firmware/raw/master/brcm/brcmfmac43456-sdio.radxa%2Czero.bin
-wget -O "/lib/firmware/brcm/brcmfmac43456-sdio.radxa,zero.txt" https://github.com/armbian/firmware/raw/master/brcm/brcmfmac43456-sdio.radxa%2Czero.txt
+git clone --depth 1 https://github.com/armbian/firmware.git /usr/src/armbian-firmware
+cp -ra /usr/src/armbian-firmware/brcm/* /lib/firmware/brcm/
 
 # Setup boot partition
 mkdir -p /boot/amlogic

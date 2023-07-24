@@ -10,8 +10,8 @@ GENIMAGE_ROOT=$(mktemp -d)
 
 # setup and move bits
 mkdir -p ${build_path}/final
-cp ${build_path}/boot.vfat ${build_path}/final/
-cp ${build_path}/rootfs.ext4 ${build_path}/final/
+mv ${build_path}/boot.vfat ${build_path}/final/
+mv ${build_path}/rootfs.ext4 ${build_path}/final/
 cp ${root_path}/genimage_final.cfg ${build_path}/genimage.cfg
 
 # Update UUID in genimage.cfg to match what u-boot has set

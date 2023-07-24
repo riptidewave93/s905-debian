@@ -35,7 +35,6 @@ Other helpful commands:
   - SD Example: `dd if=./debian-*.img of=/dev/mmcblk0 bs=2M conv=fdatasync`
 
 ## To Do
-* Fixup wifi on Radxa Zero
 * You tell me. Bug reports and PRs welcome!
 
 ## Notes
