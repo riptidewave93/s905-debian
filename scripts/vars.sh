@@ -16,8 +16,8 @@ toolchain_bin_path="${toolchain_filename%.tar.xz}/bin"
 toolchain_cross_compile="aarch64-none-linux-gnu-"
 
 # U-Boot
-uboot_src="https://github.com/u-boot/u-boot/archive/refs/tags/v2023.07.02.zip"
-uboot_filename="u-boot-2023.07.02.zip"
+uboot_src="https://github.com/u-boot/u-boot/archive/refs/tags/v2023.10-rc2.zip"
+uboot_filename="u-boot-2023.10-rc2.zip"
 uboot_overlay_dir="u-boot"
 
 # FIP

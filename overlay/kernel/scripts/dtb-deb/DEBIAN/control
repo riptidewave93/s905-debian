@@ -1,0 +1,8 @@
+Package: linux-dtbs-KERNELVERSION
+Version: KERNELVERSION-1
+Architecture: arm64
+Section: kernel
+Priority: optional
+Maintainer: Chris Blake <chris@cblake.io>
+Homepage: https://github.com/riptidewave93/s905-debian
+Description: Device Trees for s905 boards, built from mainline.

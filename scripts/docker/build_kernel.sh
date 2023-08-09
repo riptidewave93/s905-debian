@@ -34,7 +34,6 @@ fi
 
 # Build as normal, with our extra version set to a timestamp
 make ${kernel_config}
-#make menuconfig
 make -j`getconf _NPROCESSORS_ONLN` EXTRAVERSION=-$(date +%Y%m%d-%H%M%S) bindeb-pkg dtbs
 
 # Save our config
@@ -42,9 +41,23 @@ mkdir -p ${build_path}/kernel
 make savedefconfig
 mv defconfig ${build_path}/kernel/kernel_config
 
-# Prep for storage of important bits
+# Get our kernel version (fully)
+KERNEL_VERSION=$(ls ${kernel_builddir}/linux-headers-*.deb | awk -F- '{ print $3"-"$6"-"$7 }')
+
+# Now build our deb for the dtb's
+mkdir -p ${build_path}/kernel/linux-dtbs-${KERNEL_VERSION}/boot/dtb-${KERNEL_VERSION}/amlogic
+mv ./scripts/dtb-deb/DEBIAN ${build_path}/kernel/linux-dtbs-${KERNEL_VERSION}/
+sed -i "s|KERNELVERSION|${KERNEL_VERSION}|g" ${build_path}/kernel/linux-dtbs-${KERNEL_VERSION}/DEBIAN/control
+sed -i "s|KERNELVERSION|${KERNEL_VERSION}|g" ${build_path}/kernel/linux-dtbs-${KERNEL_VERSION}/DEBIAN/conffiles
 for i in "${supported_devices[@]}"; do
-    # FIXME - dtb name is different compared to u-boot, so jank it.
-	cp arch/arm64/boot/dts/amlogic/meson-g12a-${i}.dtb ${build_path}/kernel
+	cp arch/arm64/boot/dts/amlogic/meson-g12a-${i}.dtb ${build_path}/kernel/linux-dtbs-${KERNEL_VERSION}/boot/dtb-${KERNEL_VERSION}/amlogic
 done
-cp ${kernel_builddir}/linux-*.deb ${build_path}/kernel
+cd ${build_path}/kernel
+dpkg-deb --root-owner-group --build linux-dtbs-${KERNEL_VERSION}
+rm -rf ${build_path}/kernel/linux-dtbs-${KERNEL_VERSION}
+
+# Remove the debug kernel
+rm ${kernel_builddir}/linux-image-${KERNEL_VERSION}-dbg*.deb
+
+# Move our debs to the kernel dir
+mv ${kernel_builddir}/linux-*.deb ${build_path}/kernel
